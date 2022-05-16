@@ -85,7 +85,7 @@ function filterSubmit(div) {
                     return false;
             } else if (endDate) {
                 // Only end date
-                if (feature.properties.endDate > endDate)
+                if (feature.properties.startDate > endDate)
                     return false;
             }
             return true;
