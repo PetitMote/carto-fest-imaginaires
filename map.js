@@ -18,7 +18,7 @@ let festivalsLayer = L.geoJSON(jsonData, {onEachFeature: onEachPoint}).addTo(map
 map.locate({setView: true, maxZoom: 11});
 
 let festivalsFilter = L.control("topright");
-festivalsFilter.onAdd = function (map) {
+festivalsFilter.onAdd = function () {
     let div = L.DomUtil.create('div', 'filter');
     div.innerHTML = `<form name="festival-filter" id="festival-filter" class="form-filter">
                         <fieldset>
@@ -61,7 +61,7 @@ function filterSubmit(div) {
         filter: function (feature) {
             let startDate = formData.get("start-date");
             let endDate = formData.get("end-date");
-            if (formData.has("free") && feature.properties.free)
+            if (formData.has("free") && !feature.properties.free)
                 return false;
             if (!formData.getAll("type").includes(feature.properties.type))
                 return false;
