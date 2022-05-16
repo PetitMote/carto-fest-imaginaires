@@ -1,25 +1,32 @@
+// Set the map
 let map = L.map('map').setView([48.13, -1.64], 7);
 
+// Add the OSM background
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "\n" + "© <a href=https://www.openstreetmap.org/copyright>Contributeurs d’OpenStreetMap</a>",
     maxZoom: 19,
 }).addTo(map);
 
+// Parse geojson data as a JS object
 let jsonData = JSON.parse(document.getElementById("json-data").textContent);
 
+// Define a function to be called on each point, to set up the popup
 function onEachPoint(feature, layer) {
     let popupContent = `<p><strong>${feature.properties.name}</strong><br />${feature.properties.website}<br />${feature.properties.type}<br />Du ${feature.properties.startDate} au ${feature.properties.endDate}<br />${feature.properties.free ? "Gratuit" : "Payant"}</p>`
     layer.bindPopup(popupContent);
     feature.alt = feature.properties.name;
 }
-
+// Generate the layer / Leaflet data from the geojson
 let festivalsLayer = L.geoJSON(jsonData, {onEachFeature: onEachPoint}).addTo(map);
 
+// Zoom on user location
 map.locate({setView: true, maxZoom: 11});
 
+// Add a control to filter the festivals
 let festivalsFilter = L.control("topright");
 festivalsFilter.onAdd = function () {
     let div = L.DomUtil.create('div', 'filter');
+    // HTML form
     div.innerHTML = `<form name="festival-filter" id="festival-filter" class="form-filter">
                         <fieldset>
                         <legend>Type</legend>
@@ -43,17 +50,19 @@ festivalsFilter.onAdd = function () {
                             <input type="date" name="end-date" id="end-date">
                         </div>
                     </form>`
+    // HTML button to submit the form
     let button = L.DomUtil.create('button', 'filter-button', div);
     button.innerHTML = "Filtrer";
-    // Cet event semble faire buguer l’exécution, c’est quasiment copié du tuto de shevek
+    // Javascript listener
     L.DomEvent.on(button, "click", (div) => filterSubmit(div), this);
     return div;
 }
 
+// Get the form data, and filter the festivals
 function filterSubmit(div) {
     const form = document.getElementById("festival-filter");
     let formData = new FormData(form);
-
+    // Remove the layers, then re-import the data to apply the filter function
     map.removeLayer(festivalsLayer);
     festivalsLayer = L.geoJSON(jsonData,
     {
@@ -65,14 +74,17 @@ function filterSubmit(div) {
                 return false;
             if (!formData.getAll("type").includes(feature.properties.type))
                 return false;
+            // Multiple tests depending on wether the user input both dates, only one of them, or none
             if (startDate) {
                 if (endDate) {
+                    // Both dates
                     if (!((feature.properties.startDate >= startDate && feature.properties.startDate <= endDate) ||
                         (feature.properties.endDate >= startDate && feature.properties.endDate <= endDate)))
                         return false;
-                } else if (feature.properties.endDate < startDate)
+                } else if (feature.properties.endDate < startDate) // Only start date
                     return false;
             } else if (endDate) {
+                // Only end date
                 if (feature.properties.endDate > endDate)
                     return false;
             }
