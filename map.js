@@ -1,5 +1,5 @@
 // Set the map
-let map = L.map('map').setView([48.13, -1.64], 7);
+let map = L.map('map').setView([46.56, 3.26], 6);
 
 // Add the OSM background
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -20,7 +20,7 @@ function onEachPoint(feature, layer) {
 let festivalsLayer = L.geoJSON(jsonData, {onEachFeature: onEachPoint}).addTo(map);
 
 // Zoom on user location
-map.locate({setView: true, maxZoom: 11});
+map.locate({setView: true, maxZoom: 9});
 
 // Add a control to filter the festivals
 let festivalsFilter = L.control("topright");
