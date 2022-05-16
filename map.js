@@ -39,7 +39,7 @@ festivalsFilter.onAdd = function () {
                                 <label for="type-marche">Marché médiéval</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="type" id="type-culture" value="culture" checked>
+                                <input type="checkbox" name="type" id="type-culture" value="culturel" checked>
                                 <label for="type-culture">Festival culturel</label>
                             </div>
                         </fieldset>
