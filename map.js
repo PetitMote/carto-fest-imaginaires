@@ -32,11 +32,15 @@ festivalsFilter.onAdd = function () {
                         <legend>Type</legend>
                             <div class="form-filter">
                                 <input type="checkbox" name="type" id="type-festival" value="festival" checked>
-                                <label for="type-festival">Festival</label>
+                                <label for="type-festival">Festival / fête</label>
                             </div>
                             <div>
                                 <input type="checkbox" name="type" id="type-marche" value="marche" checked>
                                 <label for="type-marche">Marché médiéval</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="type" id="type-culture" value="culture" checked>
+                                <label for="type-culture">Festival culturel</label>
                             </div>
                         </fieldset>
                         <div class="form-filter">
