@@ -12,7 +12,7 @@ let jsonData = JSON.parse(document.getElementById("json-data").textContent);
 
 // Define a function to be called on each point, to set up the popup
 function onEachPoint(feature, layer) {
-    let popupContent = `<p><strong>${feature.properties.name}</strong><br />${feature.properties.website}<br />${feature.properties.type}<br />Du ${feature.properties.startDate} au ${feature.properties.endDate}<br />${feature.properties.free ? "Gratuit" : "Payant"}</p>`
+    let popupContent = `<p><strong>${feature.properties.name}</strong><br /><a href="${feature.properties.website}">${feature.properties.website}</a><br />${feature.properties.type}<br />Du ${feature.properties.startDate} au ${feature.properties.endDate}<br />${feature.properties.free ? "Gratuit" : "Payant"}</p>`
     layer.bindPopup(popupContent);
     feature.alt = feature.properties.name;
 }
